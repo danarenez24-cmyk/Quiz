@@ -3,14 +3,14 @@ const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/156106586065365000
 
 const preguntas = [
   "1. ¿Cuál es tu color favorito?",
-  "2. ¿Cuál es tu snack o comida favorita?",
-  "3. ¿Qué música o artista escuchas más?",
+  "2. ¿Cuál es tu comida favorita?",
+  "3. ¿Cual es tu cancion favorita?",
   "4. ¿Qué te gusta hacer en tu tiempo libre?",
-  "5. ¿Cuál es tu bebida preferida?",
-  "6. ¿Cuál sería tu plan ideal para salir?",
-  "7. ¿Qué te motiva más en tu día a día?",
+  "5. ¿Cuándo es tu cumpleaños?",
+  "6. ¿Te gustan los juegos?, ¿Que te gusta jugar?",
+  "7. ¿Cual es tu deporte favorito?",
   "8. ¿Qué tipo de películas o series prefieres?",
-  "9. ¿Lugar favorito para visitar?",
+  "9. ¿Qué es la cosa que mas te gusta en el mundo?",
   "10. ¿Alguna canción que te recuerde a algo especial?"
 ];
 
