@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Un par de preguntas ✨</title>
+  <!-- CDN de Tailwind CSS para utilidades de maquetación -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Estilos y animaciones personalizadas -->
+  <link rel="stylesheet" href="estilos.css">
+</head>
+<body class="bg-gradient-to-tr from-pink-100 via-rose-100 to-purple-200 min-h-screen flex items-center justify-center p-4 font-sans overflow-hidden">
+
+  <!-- Tarjeta Principal con efecto de elevación -->
+  <div class="card-container bg-white/80 backdrop-blur-md rounded-3xl shadow-2xl p-8 max-w-md w-full relative overflow-hidden border border-white">
+    
+    <!-- Barra de progreso fluida -->
+    <div class="w-full bg-gray-200/80 h-2.5 rounded-full mb-6 overflow-hidden">
+      <div id="progress-bar" class="bg-gradient-to-r from-pink-400 to-rose-500 h-2.5 rounded-full transition-all duration-500 ease-out w-0"></div>
+    </div>
+
+    <!-- Contenedor dinámico de preguntas -->
+    <div id="quiz-container"></div>
+
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
