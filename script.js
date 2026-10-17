@@ -1,6 +1,5 @@
-
-// ⚠️ Coloca la URL del Webhook de Discord aquí:
-const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1561065860653650007/3xk1Z2VVAdEjvZWXsBquvDt5LjJBa8JVX7AHtvwqNvM0AsuvkCj_VObvCNp_v5qdIV1W';
+// ⚠️ Coloca la URL de tu Webhook entre comillas:
+const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1561065860653650007/3xk1Z2VVAdEjvZWXsBquvDt5LjJBa8JVX7AHtvwqNvM0AsuvkCj_VObvCNp_v5qdIV1W";
 
 const preguntas = [
   "1. ¿Cuál es tu color favorito?",
@@ -20,12 +19,12 @@ let nombreUsuario = "";
 let respuestasGuardadas = {};
 
 function empezarQuiz() {
-  const inputNombre = document.getElementById("nombre-usuario").value.trim();
-  if (!inputNombre) {
+  const inputNombre = document.getElementById("nombre-usuario");
+  if (!inputNombre || !inputNombre.value.trim()) {
     alert("Por favor escribe tu nombre antes de comenzar 😊");
     return;
   }
-  nombreUsuario = inputNombre;
+  nombreUsuario = inputNombre.value.trim();
   document.getElementById("pantalla-inicio").classList.add("hidden");
   document.getElementById("quiz-container").classList.remove("hidden");
   mostrarPregunta();
@@ -39,8 +38,9 @@ function mostrarPregunta() {
   document.getElementById("barra-progreso").style.width = `${porcentaje}%`;
 
   const inputRespuesta = document.getElementById("respuesta-texto");
-  inputRespuesta.value = "";
-  setTimeout(() => inputRespuesta.focus(), 100);
+  if (inputRespuesta) {
+    inputRespuesta.value = "";
+  }
 }
 
 function detectarEnter(event) {
@@ -51,6 +51,8 @@ function detectarEnter(event) {
 
 function siguientePregunta() {
   const inputRespuesta = document.getElementById("respuesta-texto");
+  if (!inputRespuesta) return;
+
   const respuesta = inputRespuesta.value.trim();
 
   if (!respuesta) {
@@ -81,7 +83,7 @@ async function enviarRespuestas() {
   }
 
   try {
-    if (DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL !== 'PEGA_AQUI_TU_WEBHOOK_DE_DISCORD') {
+    if (DISCORD_WEBHOOK_URL && DISCORD_WEBHOOK_URL.startsWith('http')) {
       await fetch(DISCORD_WEBHOOK_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
