@@ -1,17 +1,18 @@
-// ⚠️ REEMPLAZA ESTA DIRECCIÓN POR LA URL DE TU WEBHOOK DE DISCORD:
+
+// ⚠️ Coloca la URL del Webhook de Discord aquí:
 const DISCORD_WEBHOOK_URL = 'https://discord.com/api/webhooks/1561065860653650007/3xk1Z2VVAdEjvZWXsBquvDt5LjJBa8JVX7AHtvwqNvM0AsuvkCj_VObvCNp_v5qdIV1W';
 
 const preguntas = [
-  { pregunta: "1. ¿Cuál es tu color favorito?", opciones: ["Rosa / Pastel", "Azul / Verde", "Negro / Oscuros", "Morado / Lila"] },
-  { pregunta: "2. ¿Cuál es tu snack o comida favorita?", opciones: ["Tacos / Antojitos", "Pizza / Pasta", "Postres / Dulces", "Sushi / Comida asiática"] },
-  { pregunta: "3. ¿Qué música o artista escuchas más?", opciones: ["Pop / Reggaeton", "Rock / Indie", "K-Pop", "De todo un poco"] },
-  { pregunta: "4. ¿Qué te gusta hacer en tu tiempo libre?", opciones: ["Ver series / películas", "Escuchar música / dibujar", "Salir con amigos", "Dormir / descansar"] },
-  { pregunta: "5. ¿Cuál es tu bebida preferida?", opciones: ["Café / Frappé", "Boba Tea / Té", "Refresco", "Agua preparada / Jugo"] },
-  { pregunta: "6. ¿Cuál sería tu plan ideal para salir?", opciones: ["Ir por un café y platicar", "Ir al cine o un parque", "Plaza comercial / Compras", "Quedarse en casa viendo películas"] },
-  { pregunta: "7. ¿Qué te motiva más en el CECyTEM?", opciones: ["Ver a mis amigos", "Aprender mi especialidad", "Los recesos / tiempo libre", "Saber que ya mero termino"] },
-  { pregunta: "8. ¿Qué tipo de películas o series prefieres?", opciones: ["Romance / Drama", "Terror / Misterio", "Comedia", "Animadas / Anime"] },
-  { pregunta: "9. ¿Te consideras una persona de día o de noche?", opciones: ["De día ☀️", "De noche 🌙"] },
-  { pregunta: "10. Para botanear, ¿prefieres dulce o salado?", opciones: ["Dulce 🍫", "Salado / Picante 🌶️"] }
+  "1. ¿Cuál es tu color favorito?",
+  "2. ¿Cuál es tu snack o comida favorita?",
+  "3. ¿Qué música o artista escuchas más?",
+  "4. ¿Qué te gusta hacer en tu tiempo libre?",
+  "5. ¿Cuál es tu bebida preferida?",
+  "6. ¿Cuál sería tu plan ideal para salir?",
+  "7. ¿Qué te motiva más en tu día a día?",
+  "8. ¿Qué tipo de películas o series prefieres?",
+  "9. ¿Lugar favorito para visitar?",
+  "10. ¿Alguna canción que te recuerde a algo especial?"
 ];
 
 let indicePreguntaActual = 0;
@@ -31,26 +32,35 @@ function empezarQuiz() {
 }
 
 function mostrarPregunta() {
-  const q = preguntas[indicePreguntaActual];
-  document.getElementById("pregunta-titulo").innerText = q.pregunta;
+  const preguntaTexto = preguntas[indicePreguntaActual];
+  document.getElementById("pregunta-titulo").innerText = preguntaTexto;
 
   const porcentaje = ((indicePreguntaActual + 1) / preguntas.length) * 100;
   document.getElementById("barra-progreso").style.width = `${porcentaje}%`;
 
-  const container = document.getElementById("opciones-container");
-  container.innerHTML = "";
-
-  q.opciones.forEach(opcion => {
-    const btn = document.createElement("button");
-    btn.className = "opcion-btn";
-    btn.innerText = opcion;
-    btn.onclick = () => seleccionarRespuesta(q.pregunta, opcion);
-    container.appendChild(btn);
-  });
+  const inputRespuesta = document.getElementById("respuesta-texto");
+  inputRespuesta.value = "";
+  setTimeout(() => inputRespuesta.focus(), 100);
 }
 
-function seleccionarRespuesta(pregunta, respuesta) {
-  respuestasGuardadas[pregunta] = respuesta;
+function detectarEnter(event) {
+  if (event.key === "Enter") {
+    siguientePregunta();
+  }
+}
+
+function siguientePregunta() {
+  const inputRespuesta = document.getElementById("respuesta-texto");
+  const respuesta = inputRespuesta.value.trim();
+
+  if (!respuesta) {
+    alert("Por favor escribe tu respuesta antes de continuar ✨");
+    return;
+  }
+
+  const preguntaActual = preguntas[indicePreguntaActual];
+  respuestasGuardadas[preguntaActual] = respuesta;
+
   indicePreguntaActual++;
 
   if (indicePreguntaActual < preguntas.length) {
@@ -63,7 +73,7 @@ function seleccionarRespuesta(pregunta, respuesta) {
 async function enviarRespuestas() {
   document.getElementById("quiz-container").classList.add("hidden");
   document.getElementById("pantalla-final").classList.remove("hidden");
-  document.getElementById("mensaje-final-titulo").innerText = "Guardando respuestas...";
+  document.getElementById("mensaje-final-titulo").innerText = "Enviando respuestas...";
 
   let mensajeDiscord = `💖 **¡Nuevas respuestas de ${nombreUsuario}!** 💖\n\n`;
   for (const [preg, resp] of Object.entries(respuestasGuardadas)) {
